@@ -5,7 +5,7 @@ on baidu API.
 ============================================================================"""
 #%%% import modules
 import json, requests
-from math import radians, cos, sin, asin, sqrt, atan, tan, acos
+from math import radians, cos, sin, atan, tan, acos
 
 #%%% inputs and outputs
 input_file = 'Location_Parameter.josn' # 修改本文件中的参数
