@@ -5,10 +5,10 @@ on baidu API.
 ============================================================================"""
 #%%% import modules
 import json, requests
-from math import radians, cos, sin, atan, tan, acos
+from math import radians, cos, sin, atan, tan, acos, pi
 
 #%%% inputs and outputs
-input_file = 'Location_Parameter.josn' # 修改本文件中的参数
+input_file = 'Location_Parameter2.josn' # 修改本文件中的参数文件路径。
 
 #%%% define functions
 def read_json(file_path):
@@ -33,7 +33,7 @@ def locate_address(address, ak):
 
 
 def calculate_distance(location1, location2):
-    """近似计算地球上两点之间的距离(单位为：km)"""
+    """近似计算地球上两点之间的直线(三角形斜边)距离距离(单位为：km)"""
     ra=6378.140 #赤道半径
     rb=6356.755 #极半径
     flatten=(ra-rb)/ra  #地球偏率
@@ -54,6 +54,21 @@ def calculate_distance(location1, location2):
     distance=ra*(xx+dr)
     return distance
 
+
+def road_distance(location1, location2):
+    """近似计算地球上两点之间的折线(三角形直角边之和)距离(单位为：km)"""
+    lng1 = location1['lng']
+    lat1 = location1['lat']
+    lng2 = location2['lng']
+    lat2 = location2['lat']
+    longitude = 20037
+    latitude = 40075.7
+    long = longitude/180*abs(lat2-lat1)
+    average_lat = latitude/360*cos((lat2+lat1)/2/180*pi)
+    lati = average_lat*abs(lng1-lng2)
+    return long+lati
+
+
 #%%
 infos = read_json(input_file)
 ak = infos['baidu_ak']
@@ -72,9 +87,13 @@ for place in place_list:
 
 place2distance = {}
 for place, lng_lat in place2lng_lat['get'].items():
-    place2distance[place] = calculate_distance(given_lng_lat, lng_lat)
+    place2distance[place] = road_distance(given_lng_lat, lng_lat)
 place2distance = sorted(place2distance.items(), key=lambda x:x[1])
 
 for place in place2distance:
     place, distance = place
     print('距离为: %.3fkm 的地方是: %s' % (distance, place))
+if place2lng_lat['not']:
+    print('以下地址没有得到经纬度信息：')
+    for place in place2lng_lat['not']:
+        print('  ', place)
