@@ -8,7 +8,7 @@ import json, requests
 from math import radians, cos, sin, atan, tan, acos, pi
 
 #%%% inputs and outputs
-input_file = 'Location_Parameter2.josn' # 修改本文件中的参数文件路径。
+input_file = 'Location_Parameter.josn' # 修改本文件中的参数文件路径。
 
 #%%% define functions
 def read_json(file_path):
