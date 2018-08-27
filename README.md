@@ -1,6 +1,6 @@
-# 利用百度地图API从位置列表中找出离给定位置最近的位置。
-
 ## Find the nearest location to a given location from a given location list based on baidu map API.
+
+####（利用百度地图API从位置列表中找出离给定位置最近的位置）
 
 - 运行环境python 3。
 
@@ -10,5 +10,4 @@
 
 - 修改脚本中json文件所在的路径（相对或绝对路径都可以）。
 
-  ​
 
